@@ -1,6 +1,7 @@
 import {Await, NavLink, useMatches} from '@remix-run/react';
 import {Suspense} from 'react';
 import type {LayoutProps} from './Layout';
+import React, { useState, useEffect } from 'react';
 
 type HeaderProps = Pick<LayoutProps, 'header' | 'cart' | 'isLoggedIn'>;
 

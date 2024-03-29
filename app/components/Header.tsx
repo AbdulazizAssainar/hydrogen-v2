@@ -39,10 +39,10 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
     }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
-    <div class="beforeHeader">
-      <P>Test</P>
-    </div>
     <header className="header">
+      <div class="beforeHeader">
+        <P>Test</P>
+      </div>
       <NavLink 
         prefetch="intent" 
         to="/" 

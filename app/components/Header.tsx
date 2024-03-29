@@ -40,9 +40,6 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
 
   return (
     <header className="header">
-      <div class="beforeHeader">
-        <P>Test</P>
-      </div>
       <NavLink 
         prefetch="intent" 
         to="/" 

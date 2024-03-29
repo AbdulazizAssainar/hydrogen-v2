@@ -10,8 +10,6 @@ type Viewport = 'desktop' | 'mobile';
 export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop, menu} = header;
   const [isScrolled, setIsScrolled] = useState(false);
-  
-  alert("Test");
 
   useEffect(() => {
     function handleScroll() {
@@ -43,6 +41,10 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
   return (
     <header className="header">
       <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+<<<<<<< HEAD
+=======
+        /*<strong>{shop.name}</strong>*/
+>>>>>>> 0a1777c (header 4th)
         <strong>FNP Egypt</strong>
       </NavLink>
       <HeaderMenu menu={menu} viewport="desktop" />

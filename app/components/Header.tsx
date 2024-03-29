@@ -51,7 +51,7 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
         }} 
         end
       >
-        <strong>FNP Egypt</strong>
+        <strong style="     display: none; ">FNP Egypt</strong>
         <span class="MuiBox-root jss4 fnp-logo_logoSvg__WsAxe"></span>
       </NavLink>
       <HeaderMenu menu={menu} viewport="desktop" />

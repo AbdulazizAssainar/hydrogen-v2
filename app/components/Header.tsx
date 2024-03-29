@@ -40,7 +40,16 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
 
   return (
     <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle, color: black, width: 190px, height: 60px} end>
+      <NavLink 
+        prefetch="intent" 
+        to="/" 
+        style={{ 
+          ...activeLinkStyle, 
+          width: "190px", 
+          height: "60px" 
+        }} 
+        end
+      >
         <strong style=" display: none; ">FNP Egypt</strong>
         <span class="MuiBox-root jss4 fnp-logo_logoSvg__WsAxe"></span>
       </NavLink>

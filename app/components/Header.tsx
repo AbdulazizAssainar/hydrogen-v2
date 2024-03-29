@@ -8,6 +8,35 @@ type Viewport = 'desktop' | 'mobile';
 
 export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop, menu} = header;
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  useEffect(() => {
+    function handleScroll() {
+      // Check if the user has scrolled down, you can adjust the threshold as needed
+      if (window.scrollY > 100) {
+        setIsScrolled(true);
+        const headerElement = document.querySelector('.header');
+        if (headerElement) {
+          headerElement.classList.add('header_scrolled');
+        }
+      } else {
+        setIsScrolled(false);
+        const headerElement = document.querySelector('.header');
+        if (headerElement) {
+          headerElement.classList.remove('header_scrolled');
+        }
+      }
+    }
+
+    // Attach the scroll event listener when the component mounts
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup by removing the event listener when the component unmounts
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []); // Empty dependency array ensures this effect runs only once on mount
+
   return (
     <header className="header">
       <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>

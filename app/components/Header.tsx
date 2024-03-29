@@ -42,9 +42,12 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
     <header className="header">
       <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         /*<strong>{shop.name}</strong>*/
 >>>>>>> 0a1777c (header 4th)
+=======
+>>>>>>> eddf396 (header 5th)
         <strong>FNP Egypt</strong>
       </NavLink>
       <HeaderMenu menu={menu} viewport="desktop" />

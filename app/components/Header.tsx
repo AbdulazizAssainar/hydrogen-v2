@@ -11,6 +11,8 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop, menu} = header;
   const [isScrolled, setIsScrolled] = useState(false);
   
+  alert("Test");
+
   useEffect(() => {
     function handleScroll() {
       // Check if the user has scrolled down, you can adjust the threshold as needed
@@ -41,7 +43,8 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
   return (
     <header className="header">
       <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
+        /*<strong>{shop.name}</strong>*/
+        <strong>FNP Egypt</strong>
       </NavLink>
       <HeaderMenu menu={menu} viewport="desktop" />
       <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />

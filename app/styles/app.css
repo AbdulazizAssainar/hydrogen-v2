@@ -142,16 +142,12 @@ aside li {
 }
 
 .header_scrolled {
-<<<<<<< HEAD
   background: #7d8035b3;
 }
 
 .header a, .header p {
   color: #fff !important;
   font-size: 13px;
-=======
-  background: #ffffff4f;
->>>>>>> a0c6201 (header 2nd)
 }
 
 .header-menu-mobile-toggle {

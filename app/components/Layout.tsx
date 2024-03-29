@@ -19,7 +19,7 @@ export type LayoutProps = {
   children?: React.ReactNode;
   footer: Promise<FooterQuery>;
   header: HeaderQuery;
-  isLoggedIn: boolean;
+  isLoggedIn: Promise<boolean>;
 };
 
 export function Layout({
@@ -33,12 +33,12 @@ export function Layout({
     <>
       <CartAside cart={cart} />
       <SearchAside />
-      <MobileMenuAside menu={header.menu} />
-      <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
+      <MobileMenuAside menu={header?.menu} shop={header?.shop} />
+      {header && <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />}
       <main>{children}</main>
       <Suspense>
         <Await resolve={footer}>
-          {(footer) => <Footer menu={footer.menu} />}
+          {(footer) => <Footer menu={footer?.menu} shop={header?.shop} />}
         </Await>
       </Suspense>
     </>
@@ -76,7 +76,15 @@ function SearchAside() {
                 type="search"
               />
               &nbsp;
-              <button type="submit">Search</button>
+              <button
+                onClick={() => {
+                  window.location.href = inputRef?.current?.value
+                    ? `/search?q=${inputRef.current.value}`
+                    : `/search`;
+                }}
+              >
+                Search
+              </button>
             </div>
           )}
         </PredictiveSearchForm>
@@ -86,10 +94,23 @@ function SearchAside() {
   );
 }
 
-function MobileMenuAside({menu}: {menu: HeaderQuery['menu']}) {
+function MobileMenuAside({
+  menu,
+  shop,
+}: {
+  menu: HeaderQuery['menu'];
+  shop: HeaderQuery['shop'];
+}) {
   return (
-    <Aside id="mobile-menu-aside" heading="MENU">
-      <HeaderMenu menu={menu} viewport="mobile" />
-    </Aside>
+    menu &&
+    shop?.primaryDomain?.url && (
+      <Aside id="mobile-menu-aside" heading="MENU">
+        <HeaderMenu
+          menu={menu}
+          viewport="mobile"
+          primaryDomainUrl={shop.primaryDomain.url}
+        />
+      </Aside>
+    )
   );
 }

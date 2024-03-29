@@ -1,7 +1,8 @@
-import {Await, NavLink, useMatches} from '@remix-run/react';
+import {Await, NavLink} from '@remix-run/react';
 import {Suspense} from 'react';
+import type {HeaderQuery} from 'storefrontapi.generated';
 import type {LayoutProps} from './Layout';
-import React, { useState, useEffect } from 'react';
+import {useRootLoaderData} from '~/root';
 
 type HeaderProps = Pick<LayoutProps, 'header' | 'cart' | 'isLoggedIn'>;
 
@@ -9,52 +10,16 @@ type Viewport = 'desktop' | 'mobile';
 
 export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop, menu} = header;
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    function handleScroll() {
-      // Check if the user has scrolled down, you can adjust the threshold as needed
-      if (window.scrollY > 100) {
-        setIsScrolled(true);
-        const headerElement = document.querySelector('.header');
-        if (headerElement) {
-          headerElement.classList.add('header_scrolled');
-        }
-      } else {
-        setIsScrolled(false);
-        const headerElement = document.querySelector('.header');
-        if (headerElement) {
-          headerElement.classList.remove('header_scrolled');
-        }
-      }
-    }
-
-    // Attach the scroll event listener when the component mounts
-    window.addEventListener('scroll', handleScroll);
-
-    // Cleanup by removing the event listener when the component unmounts
-    return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }, []); // Empty dependency array ensures this effect runs only once on mount
-
   return (
     <header className="header">
-      <NavLink 
-        prefetch="intent" 
-        to="/" 
-        style={{ 
-          ...activeLinkStyle, 
-          color: "black", 
-          width: "190px", 
-          height: "60px" 
-        }} 
-        end
-      >
-        <strong style="     display: none; ">FNP Egypt</strong>
-        <span class="MuiBox-root jss4 fnp-logo_logoSvg__WsAxe"></span>
+      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+        <strong>{shop.name}</strong>
       </NavLink>
-      <HeaderMenu menu={menu} viewport="desktop" />
+      <HeaderMenu
+        menu={menu}
+        viewport="desktop"
+        primaryDomainUrl={header.shop.primaryDomain.url}
+      />
       <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
     </header>
   );
@@ -62,13 +27,14 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
 
 export function HeaderMenu({
   menu,
+  primaryDomainUrl,
   viewport,
 }: {
   menu: HeaderProps['header']['menu'];
+  primaryDomainUrl: HeaderQuery['shop']['primaryDomain']['url'];
   viewport: Viewport;
 }) {
-  const [root] = useMatches();
-  const publicStoreDomain = root?.data?.publicStoreDomain;
+  const {publicStoreDomain} = useRootLoaderData();
   const className = `header-menu-${viewport}`;
 
   function closeAside(event: React.MouseEvent<HTMLAnchorElement>) {
@@ -97,7 +63,8 @@ export function HeaderMenu({
         // if the url is internal, we strip the domain
         const url =
           item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain)
+          item.url.includes(publicStoreDomain) ||
+          item.url.includes(primaryDomainUrl)
             ? new URL(item.url).pathname
             : item.url;
         return (
@@ -126,7 +93,11 @@ function HeaderCtas({
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
       <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        {isLoggedIn ? 'Account' : 'Sign in'}
+        <Suspense fallback="Sign in">
+          <Await resolve={isLoggedIn} errorElement="Sign in">
+            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
+          </Await>
+        </Suspense>
       </NavLink>
       <SearchToggle />
       <CartToggle cart={cart} />
@@ -213,7 +184,7 @@ function activeLinkStyle({
   isPending: boolean;
 }) {
   return {
-    fontWeight: isActive ? 'bold' : '',
+    fontWeight: isActive ? 'bold' : undefined,
     color: isPending ? 'grey' : 'black',
   };
 }

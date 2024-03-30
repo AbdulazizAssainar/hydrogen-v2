@@ -298,7 +298,7 @@ function CartDiscounts({
         </div>
       </UpdateDiscountForm>
 
-      <button className="whatsapp-button">
+      <button className="whatsapp-button" onClick={() => {window.open("https://wa.me/971501306146")}}>
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/1200px-WhatsApp.svg.png" alt="WhatsApp Icon" />
         Easy order by WhatsApp
       </button>

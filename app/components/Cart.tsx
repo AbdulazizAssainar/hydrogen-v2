@@ -297,6 +297,11 @@ function CartDiscounts({
           <button type="submit">Apply</button>
         </div>
       </UpdateDiscountForm>
+
+      <button className="whatsapp-button">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/1200px-WhatsApp.svg.png" alt="WhatsApp Icon" />
+        Easy order by WhatsApp
+      </button>
     </div>
   );
 }

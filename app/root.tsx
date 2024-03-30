@@ -20,7 +20,9 @@ import {
 import favicon from './assets/favicon.svg';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
+import headerStyles from './styles/header.css';
 import {Layout} from '~/components/Layout';
+
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -47,6 +49,7 @@ export function links() {
   return [
     {rel: 'stylesheet', href: resetStyles},
     {rel: 'stylesheet', href: appStyles},
+    {rel: 'stylesheet', href: headerStyles},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',

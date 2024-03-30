@@ -3,6 +3,8 @@ import {Suspense} from 'react';
 import type {HeaderQuery} from 'storefrontapi.generated';
 import type {LayoutProps} from './Layout';
 import {useRootLoaderData} from '~/root';
+import fnplogo from '../assets/fnplogo.svg';
+import fnplogofit from '../assets/fnplogofit.svg';
 
 type HeaderProps = Pick<LayoutProps, 'header' | 'cart' | 'isLoggedIn'>;
 
@@ -11,17 +13,57 @@ type Viewport = 'desktop' | 'mobile';
 export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop, menu} = header;
   return (
-    <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
-      </NavLink>
-      <HeaderMenu
-        menu={menu}
-        viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
-      />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
-    </header>
+    <>
+      {/* Before Header */}
+      <header className="beforeHeader visibledesktop">
+         
+      </header>
+      
+      {/* Header */}
+      <header className="header visibledesktop">
+        <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+          <img src={fnplogo} alt="FNP Logo" className="logo-image" />
+        </NavLink>
+        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      </header>
+
+      {/* After Header */}
+      <header className="afterHeader visibledesktop">
+        
+      </header>
+      
+      {/* Non Header */}
+      <header className="header hide">
+        <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+        <strong>{shop.name}</strong>*
+        </NavLink>
+        <HeaderMenu
+          menu={menu}
+          viewport="desktop"
+          primaryDomainUrl={header.shop.primaryDomain.url}
+        />
+        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      </header>
+
+      
+      {/* Mobile Before Header */}
+      <header className="beforeHeader visibledevice">
+        <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+          <img src={fnplogofit} alt="FNP Logo" className="logo-image-mobile" />
+        </NavLink>
+      </header>
+      
+      {/* Mobile Header */}
+      <header className="header visibledevice">
+        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      </header>
+
+      {/* Mobile After Header */}
+      <header className="afterHeader visibledevice">
+        
+      </header>
+      
+    </>
   );
 }
 
